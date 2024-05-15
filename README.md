@@ -6,16 +6,16 @@ This repository contains the code for the paper: [An Algorithm for Streaming Dif
 
 1. Install OSMNX package and create a new conda environment "phdstream". Note that installing with PIP can result in strange behavior.
 ```
-conda create -n phdstream -c conda-forge --strict-channel-priority osmnx @github/clipboard-copy-element
+conda create -n phdstream -c conda-forge --strict-channel-priority osmnx
 ```
 2. Ensure "phdstream" is active
 ```
-conda activate phdstream @github/clipboard-copy-element
+conda activate phdstream
 ```
 3. Ensure you are in the project root directory
 4. Install other dependencies
 ```
-conda install -c conda-forge geopandas geodatasets shapely pandas numpy tqdm jupyterlab @github/clipboard-copy-element
+conda install -c conda-forge geopandas geodatasets shapely pandas numpy tqdm jupyterlab
 ```
 
 ### Run
