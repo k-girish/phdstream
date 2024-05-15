@@ -230,13 +230,17 @@ class PrivTree:
     def generate(self, plot_scatter=True):
         _tk_generate_time = time_util.start_time_record("gen_time")
 
-        synth_data = pd.DataFrame(data=[], columns=self.params.data_col_names)
+        synth_data = None
         for node in self.leaf_nodes:
             sampled_df = node.generate_random_points_inside(
                 int(node.metric),
                 cols=self.params.data_col_names
             )
-            synth_data = pd.concat([synth_data, sampled_df], axis=0)
+            if (sampled_df is not None) and (len(sampled_df) > 0):
+                if synth_data is None:
+                    synth_data = sampled_df
+                else:
+                    synth_data = pd.concat([synth_data, sampled_df], axis=0)
 
         duration = time_util.end_time_record(_tk_generate_time)
 

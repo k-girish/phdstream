@@ -9,7 +9,7 @@ from src.utils import read_all_csv_in_a_folder, train_test_split_df
 
 
 def pre_process_ny_taxi_data():
-    folder_path = "D:/data/ny_taxi/FOIL2013"
+    folder_path = "data/ny_taxi/FOIL2013"
     df = read_all_csv_in_a_folder(
         folder_path,
         data_limit=int(1e5)
@@ -33,8 +33,8 @@ def pre_process_ny_taxi_data():
     train_df = train_df[df.columns]
     test_df = test_df[df.columns]
 
-    train_df.to_csv("D:/data/ny_taxi_train.csv", index=False)
-    test_df.to_csv("D:/data/ny_taxi_test.csv", index=False)
+    train_df.to_csv("data/ny_taxi_train.csv", index=False)
+    test_df.to_csv("data/ny_taxi_test.csv", index=False)
 
     plt.scatter(train_df.iloc[:, 0], train_df.iloc[:, 1], s=0.1)
     plt.show()
@@ -48,7 +48,7 @@ def remove_negative(df):
 
 
 def plot_yellow_trip_data():
-    df = pd.read_csv("D:/data/yellow_tripdata_2013-02_train.csv")
+    df = pd.read_csv("data/yellow_tripdata_2013-02_train.csv")
     x_range = (-74.3, -73.4)
     y_range = (40.5, 41)
     q = f"(x>{x_range[0]}) and (x<{x_range[1]}) and (y>{y_range[0]}) and (y<{y_range[1]})"
@@ -102,8 +102,8 @@ def snap_points_in_graph_range_and_save(g, data, save_file, tol=1e-3):
 
 
 def generate_and_save_manhattan_data():
-    df = pd.read_csv("D:/data/ny_taxi_train.csv")
-    holdout_df = pd.read_csv("D:/data/ny_taxi_test.csv")
+    df = pd.read_csv("data/ny_taxi_train.csv")
+    holdout_df = pd.read_csv("data/ny_taxi_test.csv")
     df['x'] = (-1) * df['x']
     holdout_df['x'] = (-1) * holdout_df['x']
     points_arr = df[['x', 'y']].values
@@ -112,9 +112,9 @@ def generate_and_save_manhattan_data():
     g = ox.graph_from_place('Manhattan, United states', network_type='drive', simplify=True)
 
     snap_points_in_graph_range_and_save(g, points_arr,
-                                        "D:/data/ny_manhattan_taxi_train.csv")
+                                        "data/ny_manhattan_taxi_train.csv")
     snap_points_in_graph_range_and_save(g, holdout_points_arr,
-                                        "D:/data/ny_manhattan_taxi_test.csv")
+                                        "data/ny_manhattan_taxi_test.csv")
 
 
 # ------------------------------------------ Graph Data Processing

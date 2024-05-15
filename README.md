@@ -18,3 +18,13 @@ conda activate phdstream @github/clipboard-copy-element
 conda install -c conda-forge geopandas geodatasets shapely pandas numpy tqdm jupyterlab @github/clipboard-copy-element
 ```
 
+### Run
+
+The execution start at the ```main.py``` file. By default it runs a parallel processing code on at most 7 cores. Some things to note about this file:
+
+1. Multiple experiments are run over all possible combinations of the hyperparameter values provided.
+   1. For example, to run all experiments for both privacy budgets $1$ and $2$, set ```epsilons = [1.0, 2.0]```.
+2. Regarding datasets
+   1. By default the code runs with the Toy dataset "Circles with deletion".
+   2. Gowalla and NY Taxi datasets are not provided with the code however they can be downloaded from their respective websites and processed using the files in ```src/onetime/gowalla_data_processing.py``` and ```src/onetime/ny_data_processing.py``` respectively.
+   3. Dataset specific config can be updated in ```config.py```

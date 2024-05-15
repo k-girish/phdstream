@@ -574,10 +574,11 @@ class PHDStream:
                 max(round(node.metric), 0),
                 self.params.data_col_names
             )
-            if synth_data is None:
-                synth_data = sampled_df
-            else:
-                synth_data = pd.concat([synth_data, sampled_df], axis=0)
+            if (sampled_df is not None) and (len(sampled_df) > 0):
+                if synth_data is None:
+                    synth_data = sampled_df
+                else:
+                    synth_data = pd.concat([synth_data, sampled_df], axis=0)
 
         duration = round(time.time() - initial_time, 2)
 

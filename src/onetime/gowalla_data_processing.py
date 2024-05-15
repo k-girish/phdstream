@@ -5,7 +5,7 @@ from src.utils import read_all_csv_in_a_folder, train_test_split_df
 
 
 def pre_process_beijing_taxi_data(limit_data=int(1e7)):
-    folder_path = "D:/data/beijing_2008_taxi/taxi_log_2008_by_id"
+    folder_path = "data/beijing_2008_taxi/taxi_log_2008_by_id"
     col_names = ['taxi_id', 'date_time', 'x', 'y']
     x_range = (116.15, 116.6)
     y_range = (39.75, 40.1)
@@ -16,8 +16,8 @@ def pre_process_beijing_taxi_data(limit_data=int(1e7)):
     print(df.shape)
     train_df, test_df = train_test_split_df(df)
     print(train_df.shape, test_df.shape)
-    train_df.to_csv("D:/data/beijing_train.csv", index=False)
-    test_df.to_csv("D:/data/beijing_test.csv", index=False)
+    train_df.to_csv("data/beijing_train.csv", index=False)
+    test_df.to_csv("data/beijing_test.csv", index=False)
 
 
 def remove_negative(train_df, test_df):
@@ -32,8 +32,8 @@ def remove_negative(train_df, test_df):
 
 
 def plot_data():
-    train_df = pd.read_csv("D:/data/beijing_train.csv")
-    test_df = pd.read_csv("D:/data/beijing_test.csv")
+    train_df = pd.read_csv("data/beijing_train.csv")
+    test_df = pd.read_csv("data/beijing_test.csv")
     plt.scatter(train_df.loc[:, 'x'], train_df.loc[:, 'y'], s=0.1)
     plt.show()
     plt.scatter(test_df.loc[:, 'x'], test_df.loc[:, 'y'], s=0.1)

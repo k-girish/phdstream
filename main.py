@@ -206,8 +206,8 @@ def create_param_list_and_run_experiments(data_dict, result_save_path, all_resul
 
         with mp.Pool(n_processes) as pool:
             params_list_for_pools = np.array_split(param_list, n_processes)
-            print("Task for processes:")
-            print(len(params_list_for_pools))
+            print("No. of processes used = ", len(params_list_for_pools))
+            print("No. of tasks for each process:")
             print([x.shape for x in params_list_for_pools])
             pool_results = [pool.apply_async(run_experiment_for_given_df_and_param_list,
                                              (params_list_per_process, df, pool_idx, query_df, result_save_path,
@@ -287,17 +287,19 @@ def run_given_csv_files_experiments(
 if __name__ == '__main__':
     # ---------------------------- Hyper parameters --------------------------------------------------------
     # Run over a combination of hyperparams
-    n_experiments_per_hyperparam = 5
-    n_samples_per_experiment = 3
+    n_experiments_per_hyperparam = 1
+    n_samples_per_experiment = 1
 
-    epsilons = [1.0, 2.0, 4.0, 10.0]
-    sensitivities = [2]
+    epsilons = [2.0]
+    sensitivities = [1]
 
-    initialization_time_indices = [100, 200, 300, 400]  # For gowalla without deletion
+    # initialization_time_indices = [100, 200, 300, 400]  # For gowalla without deletion
     # initialization_time_indices = [150, 200, 250, 300]  # For gowalla with deletion
     # initialization_time_indices = [2, 5, 10]  # For Ny Taxi
     # initialization_time_indices = [0]  # for Ny taxi except for METHOD_PRIV_TREE_INIT_AND_COUNTING
     # initialization_time_indices = [0, 2, 5, 10]  # Offline privtree baselines
+
+    # Value of the threshold, \theta
     leaf_node_count_thresholds = [0]
 
     fit_methods = [
@@ -315,26 +317,30 @@ if __name__ == '__main__':
     fanouts = [2]
     use_multi_processing = True
 
-    infer_time_from_batch_sizes = False
-    # If batch based
-    # batch_sizes = [500]
-    # initialization_data_ratios = [0.1, 0.2]
-
     process_level_tqdm_disable = True
     proportional_split_ancestor_counts = [False]
 
-    data_limit = None
     save_generated_synth_data = False
 
     # --------------------------------------------------------------------------------------------------------
 
-    data_type = "circles"
+    data_type = "circles_with_deletion"
 
     config_obj = get_config_from_data_type(
-        data_type,
-        dp="D:/data/processed/2d",
-        sp="D:/results/cpt_final"
+        data_type
     )
+
+    infer_time_from_batch_sizes = not config_obj.data_has_time_attribute
+
+    # Change these settings as needed
+    if infer_time_from_batch_sizes:
+        batch_sizes = [500]
+        initialization_data_ratios = [0.1]
+
+    # Other initializations
+    geometry = config_obj.geometry
+    landscape_subplots = config_obj.landscape_subplots
+    query_df = config_obj.query_df
 
     run_given_csv_files_experiments(
         train_csv=config_obj.arg_train_file,

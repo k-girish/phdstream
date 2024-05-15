@@ -108,7 +108,7 @@ def urban_and_rural(n_urban=int(1e4), rural_urban_population_ratio=0.25, urban_r
     return df
 
 
-def create_toy_sklearn_datasets(n, n_datasets, base_path="D:/data"):
+def create_toy_sklearn_datasets(n, n_datasets, base_path="data"):
     for data_type in [DATA_TYPE_BLOBS, DATA_TYPE_CIRCLES, DATA_TYPE_URBAN_RURAL]:
         for data_sample_iter in range(n_datasets):
             data_dict = get_sklearn_datasets(data_type, 2 * n, holdout_ratio=0.5)
@@ -125,7 +125,7 @@ def create_toy_sklearn_datasets(n, n_datasets, base_path="D:/data"):
 def create_evolving_toy_dataset(n=int(1e4),
                                 data_type=DATA_TYPE_CIRCLES,
                                 percentage_of_first_label_entangled=50,
-                                base_path="D:/data"):
+                                base_path="data"):
     data_dict = get_sklearn_datasets(data_type, 2 * n, holdout_ratio=0.5, need_labels=True)
     data_df = data_dict["df"]
 
@@ -154,7 +154,7 @@ def create_evolving_toy_dataset(n=int(1e4),
 
 def moving_from_one_cluster_to_others(n=int(1e4),
                                       data_type=DATA_TYPE_CIRCLES,
-                                      base_path="D:/data"):
+                                      base_path="data"):
     data_dict = get_sklearn_datasets(data_type, 2 * n, holdout_ratio=0.5, need_labels=True)
     data_df = data_dict["df"]
 
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     # matplotlib.use('module://backend_interagg')
     # create_toy_sklearn_datasets(int(1e4), 2, base_path='/Users/girish/EverythingElse/MLData/processed')
     for dt in [DATA_TYPE_BLOBS, DATA_TYPE_CIRCLES]:
-        df = moving_from_one_cluster_to_others(n=int(5e4), data_type=dt, base_path="D:/data/processed/2d/")
+        df = moving_from_one_cluster_to_others(n=int(5e4), data_type=dt, base_path="data/processed/2d/")
         # df['c'] = df['move'] == -1
         i_list = np.linspace(1, len(df), 10).astype(int)[1:-1]
         for i in i_list:

@@ -28,8 +28,10 @@ def gowalla_config(sensitivity=2, with_deletion=False, dp=None, sp=None):
     ans.arg_train_file = os.path.join(ans.DATA_PATH, "gowalla", f"{arg_save_prefix}.p")
     ans.geometry = get_gowalla_geometry()
     ans.query_df = gpd.read_file(os.path.join(ans.DATA_PATH, "gowalla", "gowalla_queries.shp"))
+
     ans.landscape_subplots = True
     ans.n_plotting_steps = None
+    ans.data_has_time_attribute = True
 
     return ans
 
@@ -42,8 +44,11 @@ def ny_state_config(dp=None, sp=None):
     ans.arg_train_file = os.path.join(ans.DATA_PATH, arg_save_prefix, f"{arg_save_prefix}.p")
     ans.geometry = get_ny_state_geometry()
     ans.query_df = gpd.read_file(os.path.join(ans.DATA_PATH, arg_save_prefix, f"{arg_save_prefix}_queries.shp"))
+
     ans.landscape_subplots = False
     ans.n_plotting_steps = None
+    ans.data_has_time_attribute = True
+
     return ans
 
 
@@ -57,8 +62,10 @@ def ny_mht_road_network_config(dp=None, sp=None):
     _, gdf = ox.graph_to_gdfs(graph)
     ans.geometry = unary_union(gdf.geometry.buffer(5e-5))
     ans.query_df = gpd.read_file(os.path.join(ans.DATA_PATH, arg_save_prefix, f"{arg_save_prefix}_queries.shp"))
+
     ans.landscape_subplots = False
     ans.n_plotting_steps = None
+    ans.data_has_time_attribute = True
     return ans
 
 
@@ -79,20 +86,21 @@ def toy_dataset_config(dataset_name, dp=None, sp=None):
 
     ans.landscape_subplots = True
     ans.n_plotting_steps = None
+    ans.data_has_time_attribute = False
 
     return ans
 
 
-def get_config_from_data_type(dt: str, dp=None, sp=None):
+def get_config_from_data_type(dt: str, data_path=None, save_path=None):
     if dt == "gowalla":
-        return gowalla_config(dp, sp)
+        return gowalla_config(data_path, save_path)
     elif dt == "gowalla_with_deletion":
-        return gowalla_config(dp=dp, sp=sp, with_deletion=True)
+        return gowalla_config(dp=data_path, sp=save_path, with_deletion=True)
     elif dt in ["circles", "blobs", "circles_with_deletion", "blobs_with_deletion"]:
-        return toy_dataset_config(dataset_name=dt, dp=dp, sp=sp)
+        return toy_dataset_config(dataset_name=dt, dp=data_path, sp=save_path)
     elif dt == "ny_state":
-        return ny_state_config(dp, sp)
+        return ny_state_config(data_path, save_path)
     elif dt == "ny_mht":
-        return ny_mht_road_network_config(dp, sp)
+        return ny_mht_road_network_config(data_path, save_path)
     else:
         raise ValueError(f"Unknown dt {dt}.")
